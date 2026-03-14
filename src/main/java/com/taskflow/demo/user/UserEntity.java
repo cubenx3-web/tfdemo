@@ -44,6 +44,9 @@ public class UserEntity {
     public String getPassword(){
         return this.password;
     }
+    public Long getId(){
+        return this.id;
+    }
 
 
 
