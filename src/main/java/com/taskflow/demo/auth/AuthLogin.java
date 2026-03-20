@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.taskflow.demo.config.JwtUtil;
 import com.taskflow.demo.user.UserEntity;
-import com.taskflow.demo.user.UserOutDto;
 import com.taskflow.demo.user.UserRDto;
 import com.taskflow.demo.user.UserRepo;
 
