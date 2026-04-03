@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.taskflow.demo.user.UserEntity;
 import com.taskflow.demo.user.UserRDto;
 import com.taskflow.demo.user.UserRepo;
+import com.taskflow.demo.user.UserService;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -21,10 +22,12 @@ public class AuthReg {
 
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
-    public AuthReg(UserRepo userRepo, PasswordEncoder passwordEncoder){
+    public AuthReg(UserRepo userRepo, PasswordEncoder passwordEncoder, UserService userService){
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
     }
 
     
@@ -36,7 +39,7 @@ public class AuthReg {
     //          REGISTER USERS
     public ResponseEntity<?> userReg(UserRDto user){
         
-        Boolean isReg = (userRepo.findByEmail(user.getEmail()) == null)? true: false;
+        Boolean isReg = userService.isUser(user.getEmail());
 
         // If USER EXISTS
         if(!isReg){

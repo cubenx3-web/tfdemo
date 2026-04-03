@@ -2,6 +2,7 @@ package com.taskflow.demo.user;
 
 import java.util.List;
 
+import com.taskflow.demo.admin.AdminEntity;
 import com.taskflow.demo.group.GroupEntity;
 
 import jakarta.persistence.Column;
@@ -10,10 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "user")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,10 @@ public class UserEntity {
 
     @ManyToMany(mappedBy = "members")
     private List <GroupEntity> joinedGroups;
+
+
+    @OneToOne(mappedBy = "admin")
+    private AdminEntity admin;
 
 
     protected UserEntity(){}
@@ -57,6 +63,6 @@ public class UserEntity {
         return this.id;
     }
 
-
+    
 
 }

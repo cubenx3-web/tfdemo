@@ -17,7 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table (name = "group")
+@Table (name = "groups")
 public class GroupEntity {
     
     @Id
@@ -42,7 +42,20 @@ public class GroupEntity {
 
     
     
+    protected GroupEntity(){}
 
+    public GroupEntity( String groupName, AdminEntity admin){
+        this.groupName = groupName;
+        this.admin = admin;
+    }
+
+
+
+
+    //GETTERS
+    public String getGroupName(){
+        return this.groupName;
+    }    
 
 
 

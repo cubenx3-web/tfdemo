@@ -23,10 +23,46 @@ public class AdminEntity {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "Admin_User_id")
-    private UserEntity user;
+    @JoinColumn(name = "user_id")
+    private UserEntity admin;
+
+    private String adminName;
+
+    private String adminEmail;
 
     @OneToMany(mappedBy = "admin")
     private List<GroupEntity> groups;
+
+    protected AdminEntity (){}
     
+    public AdminEntity (UserEntity admin){
+
+        this.admin = admin;
+        this.adminName = this.admin.getUsername();
+        this.adminEmail = this.admin.getEmail();
+
+    }
+
+
+
+    //GETTERS
+    
+    public UserEntity getAdmin(){
+        return this.admin;
+    }
+
+    public String getAdminName(){
+        return this.adminName;
+    }
+
+    public String getAdminEmail(){
+        return this.adminEmail;
+    }
+
+    public List<GroupEntity> getGroup(){
+        return this.groups;
+    }
+
+
+
 }
