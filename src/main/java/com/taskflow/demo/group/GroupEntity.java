@@ -33,7 +33,7 @@ public class GroupEntity {
 
     @ManyToMany
     @JoinTable(
-        name = "group members",
+        name = "group_members",
         joinColumns = @JoinColumn(name ="group_id"),
         inverseJoinColumns = @JoinColumn(name = "member_id")
 
@@ -51,14 +51,23 @@ public class GroupEntity {
 
 
 
+    // SETTERS
+    public void setAdmin(AdminEntity admin){
+        this.admin = admin;
+    }
+
 
     //GETTERS
     public String getGroupName(){
         return this.groupName;
     }    
 
+    public AdminEntity getAdmin(){
+        return this.admin;
+    }
 
-
-
+    public List <UserEntity> getMembers(){
+        return this.members;
+    }
 
 }

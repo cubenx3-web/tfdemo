@@ -45,6 +45,14 @@ public class AdminEntity {
 
 
 
+    // SETTER
+    public void setAdmin(UserEntity user){
+        this.admin = user;
+
+    }
+
+
+
     //GETTERS
     
     public UserEntity getAdmin(){

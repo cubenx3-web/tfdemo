@@ -47,6 +47,12 @@ public class UserEntity {
     }
 
 
+    // SETTER 
+    public void setAdmin(AdminEntity admin){
+        this.admin = admin;
+    }
+
+
     // GETTER
     public String getUsername(){
         return this.username;
@@ -59,9 +65,15 @@ public class UserEntity {
     public String getPassword(){
         return this.password;
     }
+
     public Long getId(){
         return this.id;
     }
+
+    public AdminEntity getAdmin(){
+        return this.admin;
+    }
+
 
     
 

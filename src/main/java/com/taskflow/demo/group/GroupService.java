@@ -75,5 +75,14 @@ public class GroupService {
 
 
 
+    //DELETE GROUP
+    public ResponseEntity<?> deleteGroup(GroupDto groupDto){
+
+
+        return ResponseEntity.ok("Group Deleted");
+
+
+    }
+
 
 }

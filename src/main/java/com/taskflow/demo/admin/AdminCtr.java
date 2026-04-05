@@ -1,11 +1,13 @@
 package com.taskflow.demo.admin;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taskflow.demo.group.GroupDto;
 import com.taskflow.demo.user.UserEntity;
 import com.taskflow.demo.user.UserRepo;
 
@@ -24,12 +26,15 @@ public class AdminCtr {
 
 
     //GET GROUP
-    @GetMapping("/groups")
-    public ResponseEntity<?> getGroups(){
-        return ResponseEntity.ok("my groups");
+    @GetMapping("groups")
+    public ResponseEntity<?> getGroups(@RequestBody AdminDto adminDto){
+        return adminService.getGroups(adminDto);
     }
 
-
+    @DeleteMapping("group")
+    public ResponseEntity<?> deletGroup(@RequestBody GroupDto groupDto){
+        return adminService.deleteGroup(groupDto);
+    }
 
     //CREATE IS ADMIN (TEMPORARY)
     @GetMapping("isadmin")
