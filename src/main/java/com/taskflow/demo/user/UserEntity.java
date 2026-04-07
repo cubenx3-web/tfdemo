@@ -1,5 +1,6 @@
 package com.taskflow.demo.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.taskflow.demo.admin.AdminEntity;
@@ -31,7 +32,7 @@ public class UserEntity {
     private String password;
 
     @ManyToMany(mappedBy = "members")
-    private List <GroupEntity> joinedGroups;
+    private List <GroupEntity> joinedGroups = new ArrayList<>();
 
 
     @OneToOne(mappedBy = "admin")

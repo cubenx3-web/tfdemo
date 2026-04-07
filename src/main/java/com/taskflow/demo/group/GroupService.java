@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.taskflow.demo.admin.AdminEntity;
 import com.taskflow.demo.admin.AdminRepo;
 import com.taskflow.demo.admin.AdminService;
+import com.taskflow.demo.config.LinkGen;
 import com.taskflow.demo.user.UserEntity;
 import com.taskflow.demo.user.UserRepo;
 import com.taskflow.demo.user.UserService;
@@ -20,13 +21,15 @@ public class GroupService {
     private final AdminService adminService;
     private final UserRepo userRepo;
     private final AdminRepo adminRepo;
+    private final LinkGen linkGen;
 
-    public GroupService (UserService userService, GroupRepo groupRepo, AdminService adminService, UserRepo userRepo, AdminRepo adminRepo){
+    public GroupService (UserService userService, GroupRepo groupRepo, AdminService adminService, UserRepo userRepo, AdminRepo adminRepo, LinkGen linkGen){
         this.userService = userService;
         this.groupRepo = groupRepo;
         this.adminService = adminService;
         this.userRepo = userRepo;
         this.adminRepo = adminRepo;
+        this.linkGen = linkGen;
     }
 
 
@@ -59,7 +62,7 @@ public class GroupService {
             }
 
             //CREATE GROUP
-            groupRepo.save(new GroupEntity(groupDto.getGroupName(), admin));
+            groupRepo.save(new GroupEntity(groupDto.getGroupName(), admin, linkGen.codeGen()));
             
             return ResponseEntity.ok(
                 Map.of(
@@ -73,8 +76,6 @@ public class GroupService {
         
     }
 
-
-
     //DELETE GROUP
     public ResponseEntity<?> deleteGroup(GroupDto groupDto){
 
@@ -84,5 +85,42 @@ public class GroupService {
 
     }
 
+    //JOIN MEMBER
+    public ResponseEntity<?> joinGroup(GroupDto groupDto){
+
+        if(userService.isUser(groupDto.getEmail())){
+            return ResponseEntity.status(401).body( 
+                Map.of(
+                    "message","not user Alert"
+                )
+            );
+        }
+
+        else if(!groupRepo.existsByGroupCode(groupDto.getGroupCode())){
+                return ResponseEntity.status(401).body(
+                    Map.of(
+                        "message", "Link Expired or Group Doesn't exist"
+                    )
+                );
+        }
+
+        else{
+
+            GroupEntity group = groupRepo.findByGroupCode(groupDto.getGroupCode());
+            group.addMember(userRepo.findByEmail(groupDto.getEmail()));
+            
+            groupRepo.save(group);
+
+            return ResponseEntity.ok(
+                Map.of(
+                    "message", "joined"
+                )
+            );
+
+        }
+        
+       
+
+    }
 
 }

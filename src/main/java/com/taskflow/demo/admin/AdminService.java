@@ -90,7 +90,9 @@ public class AdminService {
                                         .stream()
                                         .map( group ->new GroupDto(
                                             group.getGroupName(),
-                                            group.getAdmin().getAdminName())
+                                            group.getAdmin().getAdminName(),
+                                            group.getGroupCode()
+                                        )
                                         ).toList();
             message = "success";                        
             

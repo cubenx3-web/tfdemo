@@ -1,6 +1,7 @@
 package com.taskflow.demo.admin;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.taskflow.demo.group.GroupEntity;
 import com.taskflow.demo.user.UserEntity;
@@ -31,7 +32,7 @@ public class AdminEntity {
     private String adminEmail;
 
     @OneToMany(mappedBy = "admin")
-    private List<GroupEntity> groups;
+    private Set<GroupEntity> groups = new HashSet<>();
 
     protected AdminEntity (){}
     
@@ -67,7 +68,7 @@ public class AdminEntity {
         return this.adminEmail;
     }
 
-    public List<GroupEntity> getGroup(){
+    public Set<GroupEntity> getGroup(){
         return this.groups;
     }
 

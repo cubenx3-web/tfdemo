@@ -4,13 +4,15 @@ public class GroupDto {
     
     private String groupName;
     private String email;
-
+    private String groupCode;
 
     protected GroupDto(){}
 
-    public GroupDto(String groupName, String email){
+
+    public GroupDto(String groupName, String email, String groupCode){
         this.groupName = groupName;
         this.email = email;
+        this.groupCode = groupCode;
     }
 
     
@@ -21,6 +23,10 @@ public class GroupDto {
 
     public String getEmail(){
         return this.email;
+    }
+
+    public String getGroupCode(){
+        return this.groupCode;
     }
 
 }

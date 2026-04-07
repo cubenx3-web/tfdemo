@@ -4,20 +4,25 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("api/v1/group")
 public class GroupCtr {
     
     private final GroupService groupService;
-
-    public GroupCtr(GroupService groupService){
+    private final GroupRepo groupRepo;
+    
+    public GroupCtr(GroupService groupService, GroupRepo groupRepo){
         this.groupService = groupService;
+        this.groupRepo = groupRepo;
+        
     }
 
 
@@ -46,13 +51,9 @@ public class GroupCtr {
 
     //USER JOIN GROUP
     @PutMapping("join")
-    public ResponseEntity<?> joinGroup(){
+    public ResponseEntity<?> joinGroup(@RequestBody GroupDto groupDto){
 
-        return ResponseEntity.ok(
-            Map.of(
-                "message", "Updated name"
-            )
-        );
+        return groupService.joinGroup(groupDto);
 
     }
     
@@ -69,5 +70,15 @@ public class GroupCtr {
 
     }
 
+
+    @GetMapping
+    public ResponseEntity<?> totalGroups(){
+        return ResponseEntity.ok(
+            Map.of(
+                "message", "success",
+                "total", groupRepo.findGroupCount()/100
+            )   
+        );
+    }
 
 }

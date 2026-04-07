@@ -1,11 +1,13 @@
 package com.taskflow.demo.group;
 
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.taskflow.demo.admin.AdminEntity;
 import com.taskflow.demo.user.UserEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +28,9 @@ public class GroupEntity {
 
     private String groupName;
 
+    @Column(name ="group_code", unique = true)
+    private String groupCode;
+
     @ManyToOne
     @JoinColumn(name = "admin_id")
     private AdminEntity admin;
@@ -36,24 +41,28 @@ public class GroupEntity {
         name = "group_members",
         joinColumns = @JoinColumn(name ="group_id"),
         inverseJoinColumns = @JoinColumn(name = "member_id")
-
     )
-    private List <UserEntity> members;
+
+    private Set <UserEntity> members = new HashSet<>();
 
     
     
     protected GroupEntity(){}
 
-    public GroupEntity( String groupName, AdminEntity admin){
+    public GroupEntity( String groupName, AdminEntity admin, String groupCode){
         this.groupName = groupName;
         this.admin = admin;
+        this.groupCode = groupCode;
     }
 
-
-
+    
     // SETTERS
     public void setAdmin(AdminEntity admin){
         this.admin = admin;
+    }
+
+    public void addMember(UserEntity member){
+        this.members.add(member);
     }
 
 
@@ -66,8 +75,12 @@ public class GroupEntity {
         return this.admin;
     }
 
-    public List <UserEntity> getMembers(){
+    public Set <UserEntity> getMembers(){
         return this.members;
+    }
+
+    public String getGroupCode(){
+        return this.groupCode;
     }
 
 }
