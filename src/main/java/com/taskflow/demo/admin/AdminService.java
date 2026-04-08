@@ -30,7 +30,7 @@ public class AdminService {
     //CREATE ADMIN
     public Boolean createAdmin(UserEntity user){
         
-        if(isAdmin(user)){
+        if(adminRepo.existsByAdmin(user)){
             return true;
         }
         else{
@@ -38,28 +38,6 @@ public class AdminService {
             return true;
         }
     
-    }
-
-
-    //IS ADMIN
-    public Boolean isAdmin(UserEntity user){
-
-        Boolean isAdmin;
-        // adminRepo.findByAdmin(user)==null
-        // isAdmin = ()? false : true;
-        //AdminEntity admin = adminRepo.findByAdmin(user);
-
-        try {
-            isAdmin = !(user.getAdmin().getAdminName() == null)? true : false;
-            System.out.println("\n\n\n Admin: ");
-            System.out.println(user.getAdmin().getAdminName());
-
-        } catch (Exception e) {
-            isAdmin = false;
-        }
-            
-        return isAdmin;
-
     }
 
 
@@ -71,7 +49,7 @@ public class AdminService {
         List <GroupDto> myGroups = new ArrayList<>();
         String message;
 
-        if(!isAdmin(user)){
+        if(adminRepo.existsByAdmin(user)){
             message = "invalid Query";
             myGroups.clear();
             return ResponseEntity.status(401).body(

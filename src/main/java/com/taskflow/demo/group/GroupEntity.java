@@ -65,6 +65,10 @@ public class GroupEntity {
         this.members.add(member);
     }
 
+    public void removeMember(UserEntity member){
+        this.members.remove(member);
+    }
+
 
     //GETTERS
     public String getGroupName(){

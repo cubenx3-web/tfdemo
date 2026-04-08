@@ -8,21 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taskflow.demo.group.GroupDto;
-import com.taskflow.demo.user.UserEntity;
-import com.taskflow.demo.user.UserRepo;
 
 @RestController
 @RequestMapping("api/v1/admin")
 public class AdminCtr {
 
     private final AdminService adminService;
-    private final UserRepo userRepo;
+    private final AdminRepo adminRepo;
 
-    public AdminCtr(AdminService adminService, UserRepo userRepo){
+    public AdminCtr(AdminService adminService, AdminRepo adminRepo){
         this.adminService = adminService;
-        this.userRepo = userRepo;
-    }
-
+        this.adminRepo = adminRepo;
+    }   
 
 
     //GET GROUP
@@ -40,9 +37,7 @@ public class AdminCtr {
     @GetMapping("isadmin")
     public ResponseEntity<?> isAdmin(@RequestBody AdminDto adminDto){
         
-        UserEntity admin = userRepo.findByEmail(adminDto.getEmail());
-
-        return ResponseEntity.ok(adminService.isAdmin(admin));
+        return ResponseEntity.ok(adminRepo.existsByAdminEmail(adminDto.getEmail()));
     }
     
 

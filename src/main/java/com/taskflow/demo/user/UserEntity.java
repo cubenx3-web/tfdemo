@@ -1,7 +1,7 @@
 package com.taskflow.demo.user;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.taskflow.demo.admin.AdminEntity;
 import com.taskflow.demo.group.GroupEntity;
@@ -32,7 +32,7 @@ public class UserEntity {
     private String password;
 
     @ManyToMany(mappedBy = "members")
-    private List <GroupEntity> joinedGroups = new ArrayList<>();
+    private Set <GroupEntity> joinedGroups = new HashSet<>();
 
 
     @OneToOne(mappedBy = "admin")
@@ -73,6 +73,10 @@ public class UserEntity {
 
     public AdminEntity getAdmin(){
         return this.admin;
+    }
+
+    public Set<GroupEntity> getJoinedGroups(){
+        return this.joinedGroups;
     }
 
 

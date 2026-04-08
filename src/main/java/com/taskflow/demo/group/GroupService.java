@@ -40,7 +40,7 @@ public class GroupService {
         UserEntity user = userRepo.findByEmail(groupDto.getEmail());
         AdminEntity admin;
 
-        if(userService.isUser(groupDto.getEmail())){
+        if(!userRepo.existsByEmail(groupDto.getEmail())){
             return ResponseEntity.status(404).body(
                 Map.of(
                     "message","Error no user"
@@ -50,7 +50,7 @@ public class GroupService {
 
         else{
 
-            if(!adminService.isAdmin(user)){
+            if(!adminRepo.existsByAdmin(user)){
                 adminService.createAdmin(user);
 
                 admin = adminRepo.findByAdmin(user);
@@ -122,5 +122,34 @@ public class GroupService {
        
 
     }
+
+
+    //EXIT FROM GROUP REMOVE MEMBER
+    public ResponseEntity<?> removeMember(GroupDto groupDto){
+
+        if(!userRepo.existsByEmail(groupDto.getEmail()) || !groupRepo.existsByGroupCode(groupDto.getGroupCode()) ){
+            return ResponseEntity.status(401).body(
+                Map.of(
+                "message","invalid query"
+                )
+            );
+        }
+        else{
+
+            GroupEntity group = groupRepo.findByGroupCode(groupDto.getGroupCode());
+            group.removeMember(userRepo.findByEmail(groupDto.getEmail()));
+            groupRepo.save(group);
+        }
+
+
+
+        return ResponseEntity.ok(
+            Map.of(
+                "message","removed"
+            )
+        );
+    }
+
+
 
 }
