@@ -123,7 +123,6 @@ public class GroupService {
 
     }
 
-
     //EXIT FROM GROUP REMOVE MEMBER
     public ResponseEntity<?> removeMember(GroupDto groupDto){
 

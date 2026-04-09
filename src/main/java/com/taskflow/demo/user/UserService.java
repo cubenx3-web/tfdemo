@@ -36,7 +36,7 @@ public class UserService {
            return ResponseEntity.status(401).body(
                 Map.of(
                     "message", "invalid query",
-                    "groups", joinedGroups
+                    "joinedGroups", joinedGroups
                 )
             );
         }
@@ -56,8 +56,8 @@ public class UserService {
             return ResponseEntity.ok(
             Map.of(
                 "message", "success",
-                "joinedGroups", joinedGroups
-
+                "joinedGroups", joinedGroups,
+                "groups", joinedGroups.size()
             )
         );                        
         }

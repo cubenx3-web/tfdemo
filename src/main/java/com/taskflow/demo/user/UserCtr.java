@@ -56,9 +56,7 @@ public class UserCtr {
 
     @PutMapping("leave-group")
     public ResponseEntity<?> leaveGroup(@RequestBody GroupDto groupDto){
-
         return groupService.removeMember(groupDto);
-        
     }
     
 
