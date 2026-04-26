@@ -16,7 +16,7 @@ import com.taskflow.demo.user.UserRepo;
 import com.taskflow.demo.user.UserService;
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("api/v1/auth/register")
 @CrossOrigin
 public class AuthReg {
 
@@ -31,7 +31,7 @@ public class AuthReg {
     }
 
     
-    @PostMapping("register")
+    @PostMapping
     public ResponseEntity<?> register(@RequestBody UserRDto user){
         return userReg(user);
     }
@@ -42,7 +42,7 @@ public class AuthReg {
         Boolean isReg = userService.isUser(user.getEmail());
 
         // If USER EXISTS
-        if(!isReg){
+        if(isReg){
             return ResponseEntity.status(409).body(Map.of(
                 "message", "Account already exists"
             ));
@@ -55,7 +55,7 @@ public class AuthReg {
             passwordEncoder.encode(user.getPassword())
             ));
         
-            return ResponseEntity.status(201).body(Map.of(
+            return ResponseEntity.status(200).body(Map.of(
             "message","registered"
             ));
         }

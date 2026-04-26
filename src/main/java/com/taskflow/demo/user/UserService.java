@@ -1,11 +1,14 @@
 package com.taskflow.demo.user;
 
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.taskflow.demo.group.GroupDto;
@@ -23,7 +26,7 @@ public class UserService {
     //VALIDATE USER
     public Boolean isUser(String email){
         //If users exists false
-        return (userRepo.findByEmail(email) == null)? true: false;
+        return (userRepo.findByEmail(email) == null)? false: true;
     }
 
     //JOINED GROUP
@@ -67,5 +70,5 @@ public class UserService {
 
     }
     
-
+    
 }

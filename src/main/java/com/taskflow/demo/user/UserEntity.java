@@ -3,7 +3,6 @@ package com.taskflow.demo.user;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.taskflow.demo.admin.AdminEntity;
 import com.taskflow.demo.group.GroupEntity;
 
 import jakarta.persistence.Column;
@@ -12,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -35,8 +33,6 @@ public class UserEntity {
     private Set <GroupEntity> joinedGroups = new HashSet<>();
 
 
-    @OneToOne(mappedBy = "admin")
-    private AdminEntity admin;
 
 
     protected UserEntity(){}
@@ -49,9 +45,9 @@ public class UserEntity {
 
 
     // SETTER 
-    public void setAdmin(AdminEntity admin){
-        this.admin = admin;
-    }
+    // public void setAdmin(AdminEntity admin){
+    //     this.admin = admin;
+    // }
 
 
     // GETTER
@@ -71,9 +67,7 @@ public class UserEntity {
         return this.id;
     }
 
-    public AdminEntity getAdmin(){
-        return this.admin;
-    }
+
 
     public Set<GroupEntity> getJoinedGroups(){
         return this.joinedGroups;

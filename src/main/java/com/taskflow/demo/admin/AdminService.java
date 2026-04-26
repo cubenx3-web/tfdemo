@@ -49,7 +49,7 @@ public class AdminService {
         List <GroupDto> myGroups = new ArrayList<>();
         String message;
 
-        if(adminRepo.existsByAdmin(user)){
+        if(!adminRepo.existsByAdmin(user)){
             message = "invalid Query";
             myGroups.clear();
             return ResponseEntity.status(401).body(
@@ -90,11 +90,6 @@ public class AdminService {
             );
 
         }
-
-        
-        
-        
-       
 
         
     }
@@ -138,13 +133,13 @@ public class AdminService {
         if(admin.getGroup().isEmpty() || admin.getGroup().size() <=1 ){
             
             
-            UserEntity user = admin.getAdmin();
-            user.setAdmin(null);
-            userRepo.save(user);
+            // UserEntity user = admin.getAdmin();
+            // user.setAdmin(null);
+            // userRepo.save(user);
             
             
 
-            //adminRepo.delete(admin);
+            adminRepo.delete(admin);
         }
     }
 

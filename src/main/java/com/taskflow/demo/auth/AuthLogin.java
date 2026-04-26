@@ -10,28 +10,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taskflow.demo.admin.AdminRepo;
 import com.taskflow.demo.config.JwtUtil;
 import com.taskflow.demo.user.UserEntity;
 import com.taskflow.demo.user.UserRDto;
 import com.taskflow.demo.user.UserRepo;
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("api/v1/auth/login")
 @CrossOrigin
 public class AuthLogin {
     
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final AdminRepo adminRepo;
 
-    public AuthLogin(UserRepo userRepo, PasswordEncoder passwordEncoder){
+    public AuthLogin(UserRepo userRepo, PasswordEncoder passwordEncoder, AdminRepo adminRepo){
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
+        this.adminRepo = adminRepo;
     }
 
     
 
     //  LOGIN CONTROLLER
-    @PostMapping("login")
+    @PostMapping
     public ResponseEntity<?> login(@RequestBody UserRDto userDto){
         
         return  userLogin(userDto);
@@ -59,7 +62,7 @@ public class AuthLogin {
         //valid
         else{
 
-            String token = JwtUtil.tokenGen(user.getEmail());
+            String token = JwtUtil.tokenGen(user.getEmail(), adminRepo.existsByAdminEmail(user.getEmail()));
             
             return ResponseEntity.ok(
                     Map.of(

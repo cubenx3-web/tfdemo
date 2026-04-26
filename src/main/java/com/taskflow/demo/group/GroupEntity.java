@@ -32,9 +32,16 @@ public class GroupEntity {
     private String groupCode;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
+    @JoinColumn(name = "admin")
     private AdminEntity admin;
     
+    @ManyToMany
+    @JoinTable(
+        name = "pending_request",
+        joinColumns = @JoinColumn(name = "group_id"),
+        inverseJoinColumns = @JoinColumn(name = "member_id")
+    )
+    private Set <UserEntity> pendingRequest  = new HashSet<>();
 
     @ManyToMany
     @JoinTable(

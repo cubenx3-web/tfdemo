@@ -88,7 +88,7 @@ public class GroupService {
     //JOIN MEMBER
     public ResponseEntity<?> joinGroup(GroupDto groupDto){
 
-        if(userService.isUser(groupDto.getEmail())){
+        if(!userService.isUser(groupDto.getEmail())){
             return ResponseEntity.status(401).body( 
                 Map.of(
                     "message","not user Alert"
