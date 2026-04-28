@@ -34,6 +34,9 @@ public class GroupEntity {
     @ManyToOne
     @JoinColumn(name = "admin")
     private AdminEntity admin;
+
+    @Column(name = "auto_approve")
+    private Boolean autoApprove;
     
     @ManyToMany
     @JoinTable(
@@ -60,6 +63,14 @@ public class GroupEntity {
         this.groupName = groupName;
         this.admin = admin;
         this.groupCode = groupCode;
+        this.autoApprove = true;
+    }
+
+    public GroupEntity(String groupName, AdminEntity admin, String groupCode, Boolean autoApprove){
+        this.groupName = groupName;
+        this.admin = admin;
+        this.groupCode = groupCode;
+        this.autoApprove = autoApprove;
     }
 
     
@@ -74,6 +85,10 @@ public class GroupEntity {
 
     public void removeMember(UserEntity member){
         this.members.remove(member);
+    }
+
+    public void setAutoApprove(Boolean autoApprove){
+        this.autoApprove = autoApprove;
     }
 
 
@@ -92,6 +107,10 @@ public class GroupEntity {
 
     public String getGroupCode(){
         return this.groupCode;
+    }
+
+    public Long getId(){
+        return this.id;
     }
 
 }

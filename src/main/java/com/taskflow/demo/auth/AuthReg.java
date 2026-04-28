@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taskflow.demo.user.UserEntity;
-import com.taskflow.demo.user.UserRDto;
+import com.taskflow.demo.user.UserDto;
 import com.taskflow.demo.user.UserRepo;
 import com.taskflow.demo.user.UserService;
 
@@ -32,14 +32,18 @@ public class AuthReg {
 
     
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody UserRDto user){
+    public ResponseEntity<?> register(@RequestBody UserDto user){
         return userReg(user);
     }
 
     //          REGISTER USERS
-    public ResponseEntity<?> userReg(UserRDto user){
+    public ResponseEntity<?> userReg(UserDto user){
         
         Boolean isReg = userService.isUser(user.getEmail());
+        String username = user.getUsername();
+        String email = user.getEmail();
+        String password = user.getPassword();
+
 
         // If USER EXISTS
         if(isReg){
@@ -49,15 +53,22 @@ public class AuthReg {
         } 
 
         else{
-            userRepo.save(new UserEntity(
-            user.getUsername(),
-            user.getEmail(),
-            passwordEncoder.encode(user.getPassword())
-            ));
+            if(username != null && email != null && password != null){
+                userRepo.save(new UserEntity(
+                user.getUsername(),
+                user.getEmail(),
+                passwordEncoder.encode(user.getPassword())
+               ));
         
-            return ResponseEntity.status(200).body(Map.of(
-            "message","registered"
-            ));
+                return ResponseEntity.status(200).body(Map.of(
+                "message","registered"
+                ));
+            }
+            else{
+                return ResponseEntity.status(400).body(Map.of(
+                    "message", "missing input"
+                ));
+            }
         }
     }
 

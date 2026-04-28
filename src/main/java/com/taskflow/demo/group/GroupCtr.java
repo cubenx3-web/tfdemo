@@ -3,7 +3,6 @@ package com.taskflow.demo.group;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -50,26 +49,17 @@ public class GroupCtr {
     
 
     //USER JOIN GROUP
-    @PutMapping("join")
+    @PostMapping("join")
     public ResponseEntity<?> joinGroup(@RequestBody GroupDto groupDto){
 
         return groupService.joinGroup(groupDto);
 
     }
     
-
-    //DELETE GROUP
-    @DeleteMapping
-    public ResponseEntity<?> deletGroup(){
-
-        return ResponseEntity.ok(
-            Map.of(
-                "message", "Group deleted"
-            )
-        );
-
-    }
-
+    // @PutMapping("auto-approve")
+    // public ResponseEntity <?> updateAutoAprove(){
+    //     return  groupService.updateAutoAprove();
+    // }
 
     @GetMapping
     public ResponseEntity<?> totalGroups(){

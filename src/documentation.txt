@@ -6,31 +6,68 @@ _______________________________
   ------------
 * REGISTRATION *
   ------------
+  POST: http://localhost:8080/api/v1/auth/register
 
+  JSON: {
+          "username":"user5",
+          "email":"user5@gmail.com",
+          "password":"user@123"
+        }
 
+ 
   -----
 * LOGIN *
   -----
+  POST: http://localhost:8080/api/v1/auth/login
 
+  JSON: {
+          "email":"user5@gmail.com",
+          "password":"user@123"
+        }
+  
   
   ------------
 * CREATE GROUP *
   ------------
+  POST: http://localhost:8080/api/v1/group/create
+  
+  JSON: {
+          "groupName":"group",
+          "email":"user2@gmail.com"
+        }
 
 
   ----------
 * JOIN GROUP *
   ----------
+  POST:api/v1/user/joined-group
+
+  JSON:{
+          "email" : "",
+          "groupCode" : ""
+       }
 
 
   -----------
 * LEAVE GROUP *  
   -----------
+  POST:api/v1/user/leave-group
+
+  JSON:{
+          "email" : "",
+          "groupCode" : ""
+       }
 
 
   ------------
 * DELETE GROUP *
   ------------
+  POST: api/v1/admin/group
+
+  JSON:{
+          "groupCode" : ""
+          "email" : ""
+       }
 
 
 

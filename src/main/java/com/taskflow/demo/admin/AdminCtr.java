@@ -28,9 +28,16 @@ public class AdminCtr {
         return adminService.getGroups(adminDto);
     }
 
+    // DELETE GROUP
     @DeleteMapping("group")
     public ResponseEntity<?> deletGroup(@RequestBody GroupDto groupDto){
         return adminService.deleteGroup(groupDto);
+    }
+
+    // GET MEMBERS
+    @GetMapping("group-members")
+    public ResponseEntity<?> getMembers(@RequestBody GroupDto groupDto){
+        return adminService.getGroupMembers(groupDto);
     }
 
     //CREATE IS ADMIN (TEMPORARY)

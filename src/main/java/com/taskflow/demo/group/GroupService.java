@@ -48,6 +48,14 @@ public class GroupService {
             );
         }
 
+        else if(groupDto.getGroupName() == null){
+            return ResponseEntity.status(404).body(
+                Map.of(
+                    "message","missing input"
+                )   
+            );
+        }
+
         else{
 
             if(!adminRepo.existsByAdmin(user)){
@@ -105,6 +113,8 @@ public class GroupService {
         }
 
         else{
+
+            //IF auto approve
 
             GroupEntity group = groupRepo.findByGroupCode(groupDto.getGroupCode());
             group.addMember(userRepo.findByEmail(groupDto.getEmail()));

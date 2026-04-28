@@ -36,9 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             String authHeader = request.getHeader("Authorization");
             String token = null;
-            String email = null;
-
-            
+            String email = null;            
 
             if(authHeader != null && authHeader.startsWith("Bearer ")){
                 token = authHeader.substring(7);
@@ -57,8 +55,6 @@ public class JwtFilter extends OncePerRequestFilter {
                     
                     SecurityContextHolder.getContext().setAuthentication(auth);
                     System.out.println("Authenticated");
-                    
-                    
 
                 }   
             }

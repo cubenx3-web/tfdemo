@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.taskflow.demo.admin.AdminRepo;
 import com.taskflow.demo.config.JwtUtil;
 import com.taskflow.demo.user.UserEntity;
-import com.taskflow.demo.user.UserRDto;
+import com.taskflow.demo.user.UserDto;
 import com.taskflow.demo.user.UserRepo;
 
 @RestController
@@ -35,14 +35,14 @@ public class AuthLogin {
 
     //  LOGIN CONTROLLER
     @PostMapping
-    public ResponseEntity<?> login(@RequestBody UserRDto userDto){
+    public ResponseEntity<?> login(@RequestBody UserDto userDto){
         
         return  userLogin(userDto);
     }
 
 
     // Login Authentication
-    public ResponseEntity<?> userLogin(UserRDto userDto){
+    public ResponseEntity<?> userLogin(UserDto userDto){
 
         UserEntity user = userRepo.findByEmail(userDto.getEmail());
 

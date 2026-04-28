@@ -28,6 +28,7 @@ public class UserCtr {
         this.userService = userService;
     }
 
+    // TEMPORARY TESTING CODE
     @GetMapping
     public ResponseEntity<?> hellow(){
         
@@ -47,7 +48,7 @@ public class UserCtr {
 
     // GET JOINED GROUPS
     @GetMapping("/joined-group")
-    public ResponseEntity<?> joinedGroups(@RequestBody UserRDto user){
+    public ResponseEntity<?> joinedGroups(@RequestBody UserDto user){
         return userService.joinedGroups(user);
     }
     
