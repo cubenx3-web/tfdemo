@@ -56,11 +56,6 @@ public class GroupCtr {
 
     }
     
-    // @PutMapping("auto-approve")
-    // public ResponseEntity <?> updateAutoAprove(){
-    //     return  groupService.updateAutoAprove();
-    // }
-
     @GetMapping
     public ResponseEntity<?> totalGroups(){
         return ResponseEntity.ok(

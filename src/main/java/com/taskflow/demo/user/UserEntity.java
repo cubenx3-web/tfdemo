@@ -32,7 +32,8 @@ public class UserEntity {
     @ManyToMany(mappedBy = "members")
     private Set <GroupEntity> joinedGroups = new HashSet<>();
 
-
+    @ManyToMany(mappedBy = "pendingRequest")
+    private Set <GroupEntity> pendingJoin = new HashSet<>();
 
 
     protected UserEntity(){}
@@ -44,11 +45,7 @@ public class UserEntity {
     }
 
 
-    // SETTER 
-    // public void setAdmin(AdminEntity admin){
-    //     this.admin = admin;
-    // }
-
+  
 
     // GETTER
     public String getUsername(){
@@ -71,6 +68,10 @@ public class UserEntity {
 
     public Set<GroupEntity> getJoinedGroups(){
         return this.joinedGroups;
+    }
+
+    public Set<GroupEntity> getPendingJoin(){
+        return this.pendingJoin;
     }
 
 

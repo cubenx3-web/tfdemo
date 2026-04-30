@@ -58,13 +58,7 @@ public class GroupEntity {
     
     
     protected GroupEntity(){}
-
-    public GroupEntity( String groupName, AdminEntity admin, String groupCode){
-        this.groupName = groupName;
-        this.admin = admin;
-        this.groupCode = groupCode;
-        this.autoApprove = true;
-    }
+ 
 
     public GroupEntity(String groupName, AdminEntity admin, String groupCode, Boolean autoApprove){
         this.groupName = groupName;
@@ -83,6 +77,10 @@ public class GroupEntity {
         this.members.add(member);
     }
 
+    public void setGroupName(String groupName){
+        this.groupName = groupName;
+    }
+
     public void removeMember(UserEntity member){
         this.members.remove(member);
     }
@@ -90,6 +88,16 @@ public class GroupEntity {
     public void setAutoApprove(Boolean autoApprove){
         this.autoApprove = autoApprove;
     }
+
+    public void addPendingRequest(UserEntity member){
+        this.pendingRequest.add(member);
+    }
+
+    public void removePendingRequest(UserEntity member){
+        this.pendingRequest.remove(member);
+    }
+
+
 
 
     //GETTERS
@@ -105,6 +113,10 @@ public class GroupEntity {
         return this.members;
     }
 
+    public Set <UserEntity> getPendingRequest(){
+        return this.pendingRequest;
+    }
+
     public String getGroupCode(){
         return this.groupCode;
     }
@@ -112,5 +124,10 @@ public class GroupEntity {
     public Long getId(){
         return this.id;
     }
+
+    public Boolean isAutoApprove(){
+        return this.autoApprove;
+    }
+
 
 }

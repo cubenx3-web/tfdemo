@@ -13,6 +13,7 @@ import com.taskflow.demo.user.UserEntity;
 import com.taskflow.demo.user.UserRepo;
 import com.taskflow.demo.user.UserService;
 
+
 @Service
 public class GroupService {
     
@@ -70,7 +71,7 @@ public class GroupService {
             }
 
             //CREATE GROUP
-            groupRepo.save(new GroupEntity(groupDto.getGroupName(), admin, linkGen.codeGen()));
+            groupRepo.save(new GroupEntity(groupDto.getGroupName(), admin, linkGen.codeGen(), false));
             
             return ResponseEntity.ok(
                 Map.of(
@@ -114,18 +115,46 @@ public class GroupService {
 
         else{
 
-            //IF auto approve
-
             GroupEntity group = groupRepo.findByGroupCode(groupDto.getGroupCode());
-            group.addMember(userRepo.findByEmail(groupDto.getEmail()));
-            
-            groupRepo.save(group);
+            UserEntity user = userRepo.findByEmail(groupDto.getEmail());
 
-            return ResponseEntity.ok(
-                Map.of(
-                    "message", "joined"
-                )
-            );
+            //IF auto approve
+            if (group.getMembers().contains(user) || group.getPendingRequest().contains(user)){
+
+                return ResponseEntity.ok(
+                    Map.of(
+                    "message", ((group.getMembers().contains(user))?"Joined": "Request Sent")
+                    )
+                );
+            }
+            else if(group.isAutoApprove()){
+                
+                // DIRECT JOIN
+                group.addMember(userRepo.findByEmail(groupDto.getEmail()));
+                groupRepo.save(group);
+
+                return ResponseEntity.ok(
+                    Map.of(
+                    "message", "Joined"
+                    )
+                );
+            }
+            else{
+
+                // GOES TO PENDING
+                group.addPendingRequest(userRepo.findByEmail(groupDto.getEmail()));
+                groupRepo.save(group);
+
+                return ResponseEntity.ok(
+                    Map.of(
+                        "message", "Request Sent"
+                    )
+                );
+
+            }
+
+            
+            
 
         }
         
@@ -159,6 +188,6 @@ public class GroupService {
         );
     }
 
-
+    
 
 }

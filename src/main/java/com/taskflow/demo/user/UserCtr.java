@@ -23,7 +23,7 @@ public class UserCtr {
     private final UserService userService;
     private final GroupService groupService;
 
-    public UserCtr(GroupService groupService, UserRepo userRepo, UserService userService){
+    public UserCtr(GroupService groupService, UserService userService){
         this.groupService = groupService;
         this.userService = userService;
     }

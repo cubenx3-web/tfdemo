@@ -3,6 +3,7 @@ package com.taskflow.demo.admin;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,24 @@ public class AdminCtr {
     @GetMapping("group-members")
     public ResponseEntity<?> getMembers(@RequestBody GroupDto groupDto){
         return adminService.getGroupMembers(groupDto);
+    }
+
+    // SET AUTO APPROVE
+    @PutMapping("group-approval")
+    public ResponseEntity<?> setGroupAutoApproval(@RequestBody GroupDto groupDto){
+        return adminService.setAutoApprove(groupDto);
+    }
+
+    // APPROVE OR REJECTE PENDINGS
+    @PutMapping("group-pending-request")
+    public ResponseEntity<?> handlePendingRequests(@RequestBody GroupDto groupDto){
+        return adminService.handlePendingRequests(groupDto);
+    }
+
+    // UPDATE GROUP NAME
+    @PutMapping("group-name")
+    public ResponseEntity<?> updateGroupName(@RequestBody GroupDto groupDto){
+        return adminService.updateGroupName(groupDto);
     }
 
     //CREATE IS ADMIN (TEMPORARY)
