@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taskflow.demo.group.GroupDto;
@@ -48,9 +49,12 @@ public class UserCtr {
 
     // GET JOINED GROUPS
     @GetMapping("/joined-group")
-    public ResponseEntity<?> joinedGroups(@RequestBody UserDto user){
-        return userService.joinedGroups(user);
+    public ResponseEntity<?> joinedGroups(@RequestParam String email){
+        return userService.joinedGroups(email);
     }
     
-    
+    @GetMapping("/summary")
+    public ResponseEntity<?>summary (@RequestParam String email){
+        return userService.userSummary(email);
+    }
 }

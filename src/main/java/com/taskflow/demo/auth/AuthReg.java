@@ -48,7 +48,7 @@ public class AuthReg {
         // If USER EXISTS
         if(isReg){
             return ResponseEntity.status(409).body(Map.of(
-                "message", "Account already exists"
+                "message", "This Email already exists."
             ));
         } 
 
@@ -61,12 +61,12 @@ public class AuthReg {
                ));
         
                 return ResponseEntity.status(200).body(Map.of(
-                "message","registered"
+                "message","Registered successfully"
                 ));
             }
             else{
                 return ResponseEntity.status(400).body(Map.of(
-                    "message", "missing input"
+                    "message", "Missing inputs"
                 ));
             }
         }

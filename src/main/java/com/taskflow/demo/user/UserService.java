@@ -3,11 +3,11 @@ package com.taskflow.demo.user;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.taskflow.demo.group.GroupDto;
 
 @Service
 public class UserService {
@@ -26,13 +26,13 @@ public class UserService {
     }
 
     //JOINED GROUP
-    public ResponseEntity<?> joinedGroups( UserDto userDto){
+    public ResponseEntity<?> joinedGroups( String email){
         
-        UserEntity user = userRepo.findByEmail(userDto.getEmail()) ;
+        UserEntity user = userRepo.findByEmail(email) ;
         // List <GroupDto> joinedGroups = new ArrayList<>();
 
 
-        if(!userRepo.existsByEmail(userDto.getEmail())){
+        if(!userRepo.existsByEmail(email)){
            return ResponseEntity.status(401).body(
                 Map.of(
                     "message", "invalid query",
@@ -45,10 +45,9 @@ public class UserService {
 
            var joinedGroups = user.getJoinedGroups()
                                 .stream()
-                                .map( group -> new GroupDto(
-                                      group.getGroupName(), 
-                                      user.getEmail(), 
-                                      group.getGroupCode()
+                                .map( group -> Map.of(
+                                      "groupName",group.getGroupName(), 
+                                      "groupCode",group.getGroupCode()
                                     )
                                    ).toList();
 
@@ -62,10 +61,45 @@ public class UserService {
         );                        
         }
 
-
-        
-
     }
+
     
+    // USER SUMMARY
+    public ResponseEntity<?> userSummary(String email){
+        UserEntity user = userRepo.findByEmail(email) ;
+        // List <GroupDto> joinedGroups = new ArrayList<>();
+
+
+        if(!userRepo.existsByEmail(email)){
+           return ResponseEntity.status(401).body(
+                Map.of(
+                    "message", "invalid query",
+                    "joinedGroups", new ArrayList<>()
+                )
+            );
+        }
+
+        else{
+        
+            
+
+           var joinedGroups = user.getJoinedGroups().size();
+           var waitingApproval = user.getPendingJoin().size();            
+           var projects = (new Random()).nextInt(100);
+           var tasks = (new Random()).nextInt(200); 
+
+
+            return ResponseEntity.ok(
+            Map.of(
+                "message", "success",
+                "joinedGroups", joinedGroups,
+                "waitingApproval", waitingApproval,
+                "projects", projects,
+                "tasks", tasks
+            )
+        );                        
+        }
+    }
+
     
 }

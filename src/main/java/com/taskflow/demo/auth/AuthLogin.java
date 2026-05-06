@@ -46,27 +46,20 @@ public class AuthLogin {
 
         UserEntity user = userRepo.findByEmail(userDto.getEmail());
 
-        //Is not found
-        if(user == null){
-            return ResponseEntity.status(404).body(Map.of("message","User doesn't exist"));
+        //Is not found or invalid password
+        if(user == null || !passwordEncoder.matches(userDto.getPassword(), user.getPassword()) ){
+            return ResponseEntity.status(404).body(Map.of("message","Invalid Email or Password"));
         }
 
-        //Is invalid password
-        else if(
-            !passwordEncoder.matches(userDto.getPassword(), user.getPassword())
-        ){
-
-            return ResponseEntity.status(401).body(Map.of("message","Invalid password"));
-        }
 
         //valid
         else{
 
-            String token = JwtUtil.tokenGen(user.getEmail(), adminRepo.existsByAdminEmail(user.getEmail()));
+            String token = JwtUtil.tokenGen(user.getUsername(), user.getEmail(), adminRepo.existsByAdminEmail(user.getEmail()));
             
             return ResponseEntity.ok(
                     Map.of(
-                        "message","success",
+                        "message","Welcome "+user.getUsername(),
                         "token",  token
                     )
                     );

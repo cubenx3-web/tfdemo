@@ -14,11 +14,12 @@ public class JwtUtil {
     private static final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
 
-    public static String tokenGen(String email, Boolean isAdmin){
+    public static String tokenGen(String username, String email, Boolean isAdmin){
       
         return Jwts.builder()
-            .setSubject(email)
+            .claim("username", username)
             .claim("admin", isAdmin)
+            .setSubject(email)
             .setIssuedAt(new Date())
             .setExpiration((new Date(System.currentTimeMillis()+3600000)))
             .signWith(key)
