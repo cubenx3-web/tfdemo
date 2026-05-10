@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taskflow.demo.group.GroupDto;
@@ -25,8 +26,8 @@ public class AdminCtr {
 
     //GET GROUP
     @GetMapping("groups")
-    public ResponseEntity<?> getGroups(@RequestBody AdminDto adminDto){
-        return adminService.getGroups(adminDto);
+    public ResponseEntity<?> getGroups(@RequestParam String email){
+        return adminService.getGroups(email);
     }
 
     // DELETE GROUP

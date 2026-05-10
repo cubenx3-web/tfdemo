@@ -41,9 +41,9 @@ public class AdminService {
 
 
     //GET GROUPS
-    public ResponseEntity<?> getGroups(AdminDto adminDto){
+    public ResponseEntity<?> getGroups(String email){
 
-        UserEntity user = userRepo.findByEmail(adminDto.getEmail());
+        UserEntity user = userRepo.findByEmail(email);
         AdminEntity admin = adminRepo.findByAdmin(user); ;
         String message = null;
         Long total = null;

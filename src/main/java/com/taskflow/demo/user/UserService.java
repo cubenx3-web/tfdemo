@@ -19,13 +19,13 @@ public class UserService {
     }
     
 
-    //VALIDATE USER
+    //  VALIDATE USER
     public Boolean isUser(String email){
         //If users exists false
         return (userRepo.findByEmail(email) == null)? false: true;
     }
 
-    //JOINED GROUP
+    // Get JOINED GROUP
     public ResponseEntity<?> joinedGroups( String email){
         
         UserEntity user = userRepo.findByEmail(email) ;
@@ -47,15 +47,24 @@ public class UserService {
                                 .stream()
                                 .map( group -> Map.of(
                                       "groupName",group.getGroupName(), 
-                                      "groupCode",group.getGroupCode()
+                                      "groupCode",group.getGroupCode(),
+                                      "projects", (new Random()).nextInt(100)
                                     )
                                    ).toList();
-
+            var waitingApproval = user.getPendingJoin()
+                                   .stream()
+                                   .map( group -> Map.of(
+                                        "groupName", group.getGroupName(),
+                                        "groupCode", group.getGroupCode()
+                                   )
+                                    
+                                   ).toList();
 
             return ResponseEntity.ok(
             Map.of(
                 "message", "success",
                 "joinedGroups", joinedGroups,
+                "waitingApproval", waitingApproval,
                 "total", joinedGroups.size()
             )
         );                        
@@ -101,5 +110,6 @@ public class UserService {
         }
     }
 
+    
     
 }

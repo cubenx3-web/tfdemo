@@ -2,6 +2,7 @@ package com.taskflow.demo.group;
 
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -106,7 +107,7 @@ public class GroupService {
         }
 
         else if(!groupRepo.existsByGroupCode(groupDto.getGroupCode())){
-                return ResponseEntity.status(401).body(
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     Map.of(
                         "message", "Link Expired or Group Doesn't exist"
                     )
@@ -162,10 +163,10 @@ public class GroupService {
 
     }
 
-    //EXIT FROM GROUP REMOVE MEMBER
-    public ResponseEntity<?> removeMember(GroupDto groupDto){
+    //EXIT FROM GROUP REMOVE MEMBER/ LEAVE GROUP
+    public ResponseEntity<?> removeMember(String email, String groupCode){
 
-        if(!userRepo.existsByEmail(groupDto.getEmail()) || !groupRepo.existsByGroupCode(groupDto.getGroupCode()) ){
+        if(!userRepo.existsByEmail(email) || !groupRepo.existsByGroupCode(groupCode) ){
             return ResponseEntity.status(401).body(
                 Map.of(
                 "message","invalid query"
@@ -174,8 +175,8 @@ public class GroupService {
         }
         else{
 
-            GroupEntity group = groupRepo.findByGroupCode(groupDto.getGroupCode());
-            group.removeMember(userRepo.findByEmail(groupDto.getEmail()));
+            GroupEntity group = groupRepo.findByGroupCode(groupCode);
+            group.removeMember(userRepo.findByEmail(email));
             groupRepo.save(group);
         }
 
@@ -183,7 +184,7 @@ public class GroupService {
 
         return ResponseEntity.ok(
             Map.of(
-                "message","removed"
+                "message","Exited"
             )
         );
     }

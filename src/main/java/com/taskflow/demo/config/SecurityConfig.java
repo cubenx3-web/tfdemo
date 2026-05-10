@@ -9,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import com.taskflow.demo.user.UserRepo;
 
 @Configuration
@@ -27,13 +26,17 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    
+   
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http) throws Exception {
 
         return http
             .csrf(csrf -> csrf.disable())
-
+            .cors(cors -> {})
             // JWT APIs should be stateless
             .sessionManagement(session ->
                 session.sessionCreationPolicy(
@@ -43,7 +46,7 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/**").permitAll()
-                .anyRequest().permitAll()//authenticated()
+                .anyRequest().authenticated()
             )
 
             .addFilterBefore(

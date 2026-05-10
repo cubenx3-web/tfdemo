@@ -3,6 +3,7 @@ package com.taskflow.demo.group;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/group")
+@CrossOrigin
 public class GroupCtr {
     
     private final GroupService groupService;
@@ -26,7 +28,7 @@ public class GroupCtr {
 
 
     //CREATE GROUP
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseEntity<?> createGroup(@RequestBody GroupDto groupDto){
 
         // return ResponseEntity.ok(groupDto);
@@ -36,7 +38,7 @@ public class GroupCtr {
     }
 
     //UPDATE GROUP NAME
-    @PutMapping("update")
+    @PutMapping("/update")
     public ResponseEntity<?> updateGroupName(){
 
         return ResponseEntity.ok(
@@ -49,7 +51,7 @@ public class GroupCtr {
     
 
     //USER JOIN GROUP
-    @PostMapping("join")
+    @PostMapping("/join")
     public ResponseEntity<?> joinGroup(@RequestBody GroupDto groupDto){
 
         return groupService.joinGroup(groupDto);
