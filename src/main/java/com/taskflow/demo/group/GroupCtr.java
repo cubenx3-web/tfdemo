@@ -47,8 +47,7 @@ public class GroupCtr {
             )
         );
 
-    }
-    
+    }  
 
     //USER JOIN GROUP
     @PostMapping("/join")

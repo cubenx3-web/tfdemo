@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.taskflow.demo.admin.AdminEntity;
 import com.taskflow.demo.admin.AdminRepo;
 import com.taskflow.demo.admin.AdminService;
+import com.taskflow.demo.config.JwtUtil;
 import com.taskflow.demo.config.LinkGen;
 import com.taskflow.demo.user.UserEntity;
 import com.taskflow.demo.user.UserRepo;
@@ -73,10 +74,12 @@ public class GroupService {
 
             //CREATE GROUP
             groupRepo.save(new GroupEntity(groupDto.getGroupName(), admin, linkGen.codeGen(), false));
-            
+            String token = JwtUtil.tokenGen(user.getUsername(), user.getEmail(), adminRepo.existsByAdminEmail(user.getEmail()));
+
             return ResponseEntity.ok(
                 Map.of(
-                "message", "Created Group"
+                "message", "Group Created Successfully",
+                "token", token
                 )
             );
 
@@ -119,7 +122,7 @@ public class GroupService {
             GroupEntity group = groupRepo.findByGroupCode(groupDto.getGroupCode());
             UserEntity user = userRepo.findByEmail(groupDto.getEmail());
 
-            //IF auto approve
+            //IF auto approve  || group.getAdmin().equals(adminRepo.findByAdmin(user))
             if (group.getMembers().contains(user) || group.getPendingRequest().contains(user)){
 
                 return ResponseEntity.ok(

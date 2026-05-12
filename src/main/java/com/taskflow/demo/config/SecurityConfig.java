@@ -46,7 +46,7 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()//authenticated()
             )
 
             .addFilterBefore(

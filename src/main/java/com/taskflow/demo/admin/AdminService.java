@@ -26,7 +26,7 @@ public class AdminService {
     }
     
 
-    //CREATE ADMIN
+    // CREATE ADMIN
     public Boolean createAdmin(UserEntity user){
         
         if(adminRepo.existsByAdmin(user)){
@@ -39,8 +39,7 @@ public class AdminService {
     
     }
 
-
-    //GET GROUPS
+    // GET GROUPS
     public ResponseEntity<?> getGroups(String email){
 
         UserEntity user = userRepo.findByEmail(email);
@@ -110,6 +109,52 @@ public class AdminService {
         
     }
 
+    // ADMIN SUMMARY
+    public ResponseEntity<?> getAdminSummary(String email){
+        UserEntity user = userRepo.findByEmail(email);
+        AdminEntity admin = adminRepo.findByAdmin(user); ;
+        
+        
+
+        if(!adminRepo.existsByAdmin(user)){
+            
+            return ResponseEntity.status(401).body(
+            Map.of(
+                
+                    "groups", new ArrayList<>(),
+                    "message", "invalid Query"
+            )       
+         );
+
+        }
+        else{
+            try{
+            
+            return ResponseEntity.ok(
+                Map.of(
+                "message","success",
+                "totalGroups", admin.getGroup().size(),
+                "pendingRequest", admin.getGroup().stream().mapToInt(g -> g.getPendingRequest().size()).sum(),
+                "projects", 23,
+                "tasks",42
+
+                )    
+            );
+
+
+            }catch(Exception e){
+                var myGroups = new ArrayList<>();
+                return ResponseEntity.ok(
+                    Map.of(
+                
+                    "groups", myGroups,
+                    "message","No Groups"
+                )    
+                );
+            }
+            
+        }
+    }
 
     // SET AUTO APPROVE
     public ResponseEntity<?> setAutoApprove(GroupDto groupDto){
@@ -250,7 +295,7 @@ public class AdminService {
 
     }
 
-    //DELETE GROUP
+    // DELETE GROUP
     public ResponseEntity<?> deleteGroup(GroupDto groupDto){
 
 
@@ -281,7 +326,6 @@ public class AdminService {
         
     }
 
-
     // DELETE ADMIN
     public void deletAdmin(AdminEntity admin){
 
@@ -294,7 +338,6 @@ public class AdminService {
 
         }
     }
-
 
     // UPDATE GROUPNAME
     public ResponseEntity<?> updateGroupName(GroupDto groupDto){

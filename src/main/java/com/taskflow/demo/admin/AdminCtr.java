@@ -1,6 +1,7 @@
 package com.taskflow.demo.admin;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,6 +14,7 @@ import com.taskflow.demo.group.GroupDto;
 
 @RestController
 @RequestMapping("api/v1/admin")
+@CrossOrigin
 public class AdminCtr {
 
     private final AdminService adminService;
@@ -58,6 +60,12 @@ public class AdminCtr {
     @PutMapping("group-name")
     public ResponseEntity<?> updateGroupName(@RequestBody GroupDto groupDto){
         return adminService.updateGroupName(groupDto);
+    }
+
+    // ADMIN SUMMARY
+    @GetMapping("/summary")
+    public ResponseEntity<?> getAdminSummary(@RequestParam String email){
+        return adminService.getAdminSummary(email);
     }
 
     //CREATE IS ADMIN (TEMPORARY)
