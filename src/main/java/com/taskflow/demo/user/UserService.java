@@ -8,14 +8,20 @@ import java.util.Random;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.taskflow.demo.group.GroupDto;
+import com.taskflow.demo.group.GroupEntity;
+import com.taskflow.demo.group.GroupRepo;
+
 
 @Service
 public class UserService {
 
     private final UserRepo userRepo;
+    private final GroupRepo groupRepo;
         
-    public UserService(UserRepo userRepo){
+    public UserService(UserRepo userRepo, GroupRepo groupRepo){
         this.userRepo = userRepo;
+        this.groupRepo = groupRepo;
     }
     
 
@@ -25,7 +31,7 @@ public class UserService {
         return (userRepo.findByEmail(email) == null)? false: true;
     }
 
-    // Get JOINED GROUP
+    //  GET JOINED GROUP
     public ResponseEntity<?> joinedGroups( String email){
         
         UserEntity user = userRepo.findByEmail(email) ;
@@ -72,8 +78,7 @@ public class UserService {
 
     }
 
-    
-    // USER SUMMARY
+    //  USER SUMMARY
     public ResponseEntity<?> userSummary(String email){
         UserEntity user = userRepo.findByEmail(email) ;
         // List <GroupDto> joinedGroups = new ArrayList<>();
@@ -110,6 +115,62 @@ public class UserService {
         }
     }
 
-    
+    //  EXIT FROM GROUP REMOVE MEMBER/ LEAVE GROUP
+    public ResponseEntity<?> removeMember(GroupDto groupDto){
+
+        String email = groupDto.getEmail();
+        String groupCode = groupDto.getGroupCode();
+
+        if(!userRepo.existsByEmail(email) || !groupRepo.existsByGroupCode(groupCode) ){
+            return ResponseEntity.status(401).body(
+                Map.of(
+                "message","invalid query"
+                )
+            );
+        }
+        else{
+
+            GroupEntity group = groupRepo.findByGroupCode(groupCode);
+            group.removeMember(userRepo.findByEmail(email));
+            groupRepo.save(group);
+        }
+
+
+
+        return ResponseEntity.ok(
+            Map.of(
+                "message","You have left the Group Group"
+            )
+        );
+    }
+
+
+    //  CANCEL REQUEST
+    public ResponseEntity<?> cancelRequest(GroupDto groupDto){
+        String email = groupDto.getEmail();
+        String groupCode = groupDto.getGroupCode();
+
+        if(!userRepo.existsByEmail(email) || !groupRepo.existsByGroupCode(groupCode) || !groupRepo.findByGroupCode(groupCode).getPendingRequest().contains(userRepo.findByEmail(email)) ){
+            return ResponseEntity.status(401).body(
+                Map.of(
+                "message","invalid query"
+                )
+            );
+        }
+        else{
+
+            GroupEntity group = groupRepo.findByGroupCode(groupCode);
+            group.removePendingRequest(userRepo.findByEmail(email));
+            groupRepo.save(group);
+            
+            
+            
+            return ResponseEntity.ok(
+                Map.of(
+                    "message","Request Cancelled"
+                )
+            );
+        }
+    }
     
 }

@@ -7,11 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.taskflow.demo.group.GroupService;
+import com.taskflow.demo.group.GroupDto;
+
 
 
 @RestController
@@ -20,10 +22,8 @@ import com.taskflow.demo.group.GroupService;
 public class UserCtr {
     
     private final UserService userService;
-    private final GroupService groupService;
 
-    public UserCtr(GroupService groupService, UserService userService){
-        this.groupService = groupService;
+    public UserCtr(UserService userService){
         this.userService = userService;
     }
 
@@ -38,12 +38,16 @@ public class UserCtr {
     }
 
     // LEAVE GROUP
-
     @PutMapping("/leave-group")
-    public ResponseEntity<?> leaveGroup(@RequestParam String email, String groupCode){
-        return groupService.removeMember(email, groupCode);
+    public ResponseEntity<?> leaveGroup(@RequestBody GroupDto groupDto){
+        return userService.removeMember(groupDto);
     }
     
+    // CANCEL REQUEST
+    @PutMapping("/cancel-request")
+    public ResponseEntity<?> cancelRequest(@RequestBody GroupDto groupDto){
+        return userService.cancelRequest(groupDto);
+    }
 
     // GET JOINED GROUPS
     @GetMapping("/groups")
@@ -51,6 +55,7 @@ public class UserCtr {
         return userService.joinedGroups(email);
     }
     
+    // GET USER SUMMARY
     @GetMapping("/summary")
     public ResponseEntity<?>summary (@RequestParam String email){
         return userService.userSummary(email);

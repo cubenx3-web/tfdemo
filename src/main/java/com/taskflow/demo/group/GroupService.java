@@ -187,7 +187,7 @@ public class GroupService {
 
         return ResponseEntity.ok(
             Map.of(
-                "message","Exited"
+                "message","You have left the Group Group"
             )
         );
     }
